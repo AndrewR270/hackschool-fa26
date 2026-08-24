@@ -7,9 +7,11 @@ export default function HomePage() {
     <div className="min-h-screen flex items-center justify-center">
       <div className="grid grid-cols-5 gap-2">
         {word.split("").map((char, index) => (
-          <Letter value="A" />
+          <Letter key={index} value={char} />
         ))}
       </div>
     </div>
   );
 }
+
+

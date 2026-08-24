@@ -1,16 +1,21 @@
 "use client";
 
-type PropTypes = {
-  value: string;
-}
+import { useState } from "react";
 
-export default function Letter({ value }: PropTypes) {
+export default function Letter({ value }: { value: string }) {
+  const [highlighted, setHighlighted] = useState(false);
+
   return (
-    <div>
+    <div
+      onClick={() => setHighlighted(!highlighted)}
+      className={`
+        w-12 h-12 border border-gray-700 
+        flex items-center justify-center 
+        text-xl font-bold cursor-pointer
+        ${highlighted ? "bg-yellow-300 text-black" : "bg-white text-white"}
+      `}
+    >
       {value}
     </div>
   );
 }
-
-
-
