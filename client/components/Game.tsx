@@ -6,6 +6,7 @@ import Board from "./Board/Board";
 import Keyboard from "./Keyboard/Keyboard";
 import type { LetterStatus, RowData } from "@/lib/types";
 import { getWordOfTheDay } from "@/lib/wordOfTheDay";
+import { getTodayFormatted } from "@/lib/date";
 
 const ROWS = 6;
 const COLS = 5;
@@ -137,8 +138,14 @@ export default function Game() {
     <div className="flex flex-col items-center gap-6">
 
       <div className="flex flex-row items-center">
+        
         <img src="/Wordle.png" width={50} alt="Wordle Logo" className="mr-4" />
-        <h1 className="text-4xl font-bold tracking-widest">WORDLE</h1>
+
+        <div className="flex flex-col">
+          <h1 className="text-4xl font-bold tracking-widest">WORDLE</h1>
+          <div className="opacity-60 text-xs tracking-wide">{getTodayFormatted()}</div>
+        </div>
+
       </div>
 
       <div className="flex gap-4">
