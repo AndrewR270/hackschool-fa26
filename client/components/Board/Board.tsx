@@ -1,5 +1,5 @@
 import Row from "./Row";
-import type { RowData } from "@/types/wordle";
+import type { RowData } from "@/lib/types";
 
 interface BoardProps {
   rows: RowData[];

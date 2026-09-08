@@ -1,5 +1,5 @@
 import KeyButton from "./KeyButton";
-import type { LetterStatus } from "@/types/wordle";
+import type { LetterStatus } from "@/lib/types";
 
 interface KeyboardRowProps {
   letters: string[];

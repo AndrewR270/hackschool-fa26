@@ -1,5 +1,5 @@
 import Tile from "./Tile";
-import type { RowData } from "@/types/wordle";
+import type { RowData } from "@/lib/types";
 
 interface RowProps {
   tiles: RowData;

@@ -1,6 +1,6 @@
 "use client";
 
-import type { TileData } from "@/types/wordle";
+import type { TileData } from "@/lib/types";
 import { useEffect, useState } from "react";
 
 interface TileProps {
@@ -25,9 +25,8 @@ export default function Tile({ tile }: TileProps) {
 
   return (
     <div
-      className={`w-12 h-12 flex items-center justify-center text-2xl font-bold uppercase rounded transition-all duration-300 ${
-        flipping ? "tile-flip" : ""
-      } ${bg}`}
+      className={`w-12 h-12 flex items-center justify-center text-2xl font-bold uppercase rounded 
+      transition-all duration-300 ${flipping ? "tile-flip" : ""} ${bg}`}
     >
       {tile.letter}
     </div>

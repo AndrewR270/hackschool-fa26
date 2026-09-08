@@ -1,4 +1,4 @@
-import type { LetterStatus } from "@/types/wordle";
+import type { LetterStatus } from "@/lib/types";
 
 interface KeyButtonProps {
   label: string;
@@ -9,7 +9,6 @@ interface KeyButtonProps {
 
 export default function KeyButton({ label, onClick, wide, status = "empty" }: KeyButtonProps) {
   let bg = "bg-slate-700 hover:bg-slate-600";
-
   if (status === "correct") bg = "bg-emerald-600";
   if (status === "present") bg = "bg-amber-500";
   if (status === "absent") bg = "bg-slate-800";

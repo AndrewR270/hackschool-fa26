@@ -1,6 +1,6 @@
 import KeyboardRow from "./KeyboardRow";
 import KeyButton from "./KeyButton";
-import type { LetterStatus } from "@/types/wordle";
+import type { LetterStatus } from "@/lib/types";
 
 interface KeyboardProps {
   onKey: (key: string) => void;

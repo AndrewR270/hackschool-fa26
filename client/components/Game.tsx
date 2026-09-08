@@ -1,44 +1,30 @@
 "use client";
-import Toast from "./Toast";
-
 import { useEffect, useState } from "react";
+import confetti from "canvas-confetti";
+import Toast from "./Toast";
 import Board from "./Board/Board";
 import Keyboard from "./Keyboard/Keyboard";
-import type { LetterStatus, RowData } from "@/types/wordle";
+import type { LetterStatus, RowData } from "@/lib/types";
 import { getWordOfTheDay } from "@/lib/wordOfTheDay";
-import confetti from "canvas-confetti";
-
 
 const ROWS = 6;
 const COLS = 5;
 
 export default function Game() {
   const [solution, setSolution] = useState<string>("");
+  useEffect(() => { setSolution(getWordOfTheDay()); }, []);
+
   const [rows, setRows] = useState<RowData[]>(
     Array.from({ length: ROWS }, () =>
       Array.from({ length: COLS }, () => ({ letter: "", status: "empty" }))
     )
   );
+  
   const [currentRow, setCurrentRow] = useState<number>(0);
   const [currentCol, setCurrentCol] = useState<number>(0);
-  const [message, setMessage] = useState<string>("");
-  const [gameOver, setGameOver] = useState<boolean>(false);
-
   const [letterStatuses, setLetterStatuses] = useState<Record<string, LetterStatus>>({});
-
   const [toast, setToast] = useState<string | null>(null);
-
-
-  useEffect(() => {
-    setSolution(getWordOfTheDay());
-  }, []);
-
-
-  /*
-  useEffect(() => {
-    setSolution(TEST_WORDS[Math.floor(Math.random() * TEST_WORDS.length)]);
-  }, []);
-  */
+  const [gameOver, setGameOver] = useState<boolean>(false);
 
   const handleKey = (key: string): void => {
     if (gameOver) return;
@@ -87,11 +73,7 @@ export default function Game() {
     if (guess === solution) {
       setGameOver(true);
       setToast("Correct!");
-      confetti({
-        particleCount: 120,
-        spread: 70,
-        origin: { y: 0.3 }
-      });
+      confetti({ particleCount: 120, spread: 70, origin: { y: 0.3 } });
       return;
     }
 
@@ -108,15 +90,9 @@ export default function Game() {
 
     newRow.forEach(tile => {
       const current = updatedStatuses[tile.letter];
-
-      // Only upgrade statuses (correct > present > absent)
-      if (tile.status === "correct") {
-        updatedStatuses[tile.letter] = "correct";
-      } else if (tile.status === "present" && current !== "correct") {
-        updatedStatuses[tile.letter] = "present";
-      } else if (!current) {
-        updatedStatuses[tile.letter] = "absent";
-      }
+      if (tile.status === "correct") { updatedStatuses[tile.letter] = "correct"; } 
+      else if (tile.status === "present" && current !== "correct") { updatedStatuses[tile.letter] = "present"; } 
+      else if (!current) { updatedStatuses[tile.letter] = "absent"; }
     });
 
     setLetterStatuses(updatedStatuses);
@@ -132,20 +108,30 @@ export default function Game() {
     setToast("Load game (stub)");
   };
 
+  const handleReset = (): void => {
+    setRows(
+      Array.from({ length: ROWS }, () =>
+        Array.from({ length: COLS }, () => ({ letter: "", status: "empty" }))
+      )
+    );
+    setCurrentRow(0);
+    setCurrentCol(0);
+    setGameOver(false);
+    setLetterStatuses({});
+  };
+
   return (
     <div className="flex flex-col items-center gap-6">
+
       <div className="flex flex-row items-center">
         <img src="/Wordle.png" width={50} alt="Wordle Logo" className="mr-4" />
         <h1 className="text-4xl font-bold tracking-widest">WORDLE</h1>
       </div>
 
       <div className="flex gap-4">
-        <button onClick={handleSave} className="px-4 py-2 bg-emerald-600 rounded">
-          Save Game
-        </button>
-        <button onClick={handleLoad} className="px-4 py-2 bg-indigo-600 rounded">
-          Load Game
-        </button>
+        <button onClick={handleSave} className="px-4 py-2 bg-emerald-600 rounded">Save</button>
+        <button onClick={handleLoad} className="px-4 py-2 bg-amber-500 rounded">Load</button>
+        <button onClick={handleReset} className="px-4 py-2 bg-slate-700 rounded">Reset</button>
       </div>
 
       {toast && <Toast message={toast} onClose={() => setToast(null)} />}
