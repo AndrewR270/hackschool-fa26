@@ -13,6 +13,9 @@ A Wordle clone constructed for ACM Hack School 2026.
 Create in project root:
 `npx create-next-app@latest client`
 
+Dependencies:
+`npm install canvas-confetti`
+
 Run inside client directory:
 `num run dev`
 

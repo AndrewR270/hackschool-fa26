@@ -5,6 +5,8 @@ import Board from "./Board/Board";
 import Keyboard from "./Keyboard/Keyboard";
 import type { LetterStatus, RowData } from "@/types/wordle";
 import { getWordOfTheDay } from "@/lib/wordOfTheDay";
+import confetti from "canvas-confetti";
+
 
 const ROWS = 6;
 const COLS = 5;
@@ -22,6 +24,8 @@ export default function Game() {
   const [gameOver, setGameOver] = useState<boolean>(false);
 
   const [letterStatuses, setLetterStatuses] = useState<Record<string, LetterStatus>>({});
+
+  const [lastGuess, setLastGuess] = useState<string>("");
 
 
   useEffect(() => {
@@ -78,10 +82,15 @@ export default function Game() {
     const newRows = [...rows];
     newRows[currentRow] = newRow;
     setRows(newRows);
+    setLastGuess(guess);
 
     if (guess === solution) {
       setGameOver(true);
-      setMessage("You guessed it!");
+      confetti({
+        particleCount: 120,
+        spread: 70,
+        origin: { y: 0.3 }
+      });
       return;
     }
 
