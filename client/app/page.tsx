@@ -1,17 +1,9 @@
-import Letter from "../components/Letter";
+import Game from "@/components/Game";
 
-export default function HomePage() {
-  const word = "REACT";
-
+export default function Home() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="grid grid-cols-5 gap-2">
-        {word.split("").map((char, index) => (
-          <Letter key={index} value={char} />
-        ))}
-      </div>
+    <div className="min-h-screen bg-slate-900 text-slate-100 flex items-center justify-center py-10">
+      <Game />
     </div>
   );
 }
-
-
