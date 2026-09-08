@@ -11,32 +11,49 @@ import { getTodayFormatted } from "@/lib/date";
 const ROWS = 6;
 const COLS = 5;
 
+/*
+  Game component for the Wordle game.
+  Handles game state, user input, and rendering of the board and keyboard.
+*/
 export default function Game() {
+
+  // State for the solution word of the day
   const [solution, setSolution] = useState<string>("");
   useEffect(() => { setSolution(getWordOfTheDay()); }, []);
 
+  // State for the rows of the game board
   const [rows, setRows] = useState<RowData[]>(
     Array.from({ length: ROWS }, () =>
       Array.from({ length: COLS }, () => ({ letter: "", status: "empty" }))
     )
   );
   
+  // State for the current row and column
   const [currentRow, setCurrentRow] = useState<number>(0);
   const [currentCol, setCurrentCol] = useState<number>(0);
+
+  // State for the status of each letter
   const [letterStatuses, setLetterStatuses] = useState<Record<string, LetterStatus>>({});
+
+  // State for toast messages
   const [toast, setToast] = useState<string | null>(null);
+
+  // State for game over status
   const [gameOver, setGameOver] = useState<boolean>(false);
 
+
+  // Handler for key presses (both physical and virtual keyboard)
   const handleKey = (key: string): void => {
     if (gameOver) return;
 
+    // Clear existing toast messages when a key is pressed
+    setToast(null);
+
+    // Define behavior for special keys (ENTER, BACKSPACE) and letter input
+
     if (key === "ENTER") {
-      if (currentCol !== COLS) {
-        setToast("Not enough letters");
-        return;
-      }
-      submitRow();
-      return;
+      if (currentCol !== COLS) { setToast("Not enough letters"); return; }
+      else { submitRow(); return; }
     }
 
     if (key === "BACKSPACE") {
@@ -51,12 +68,16 @@ export default function Game() {
     if (!/^[A-Z]$/.test(key)) return;
     if (currentCol >= COLS) return;
 
+    // Add the pressed letter to the current tile on the board
+
     const newRows = [...rows];
     newRows[currentRow][currentCol] = { letter: key, status: "empty" };
     setRows(newRows);
     setCurrentCol(currentCol + 1);
   };
 
+
+  // Effect to handle physical keyboard input
   useEffect(() => {
     const handlePhysicalKey = (e: KeyboardEvent) => {
       if (gameOver) return;
@@ -70,7 +91,11 @@ export default function Game() {
   }, [gameOver, handleKey]);
 
 
+  // Function to submit the current row and update game state
   const submitRow = (): void => {
+
+    // Check guess against solution and update the status of each tile accordingly
+
     const guess = rows[currentRow].map(t => t.letter).join("");
     const solutionChars = solution.split("");
 
@@ -80,10 +105,13 @@ export default function Game() {
       return { ...tile, status: "absent" };
     });
 
+    // Update the rows state with the new row containing the evaluated guess
+
     const newRows = [...rows];
     newRows[currentRow] = newRow;
     setRows(newRows);
 
+    // Check if the guess is correct
     if (guess === solution) {
       setGameOver(true);
       setToast("Correct!");
@@ -91,11 +119,14 @@ export default function Game() {
       return;
     }
 
+    // Check if last row is reached
     if (currentRow === ROWS - 1) {
       setGameOver(true);
       setToast(`Game over. Word was ${solution}`);
       return;
     }
+
+    // Move to the next row and reset the current column
 
     setCurrentRow(currentRow + 1);
     setCurrentCol(0);
@@ -111,6 +142,9 @@ export default function Game() {
 
     setLetterStatuses(updatedStatuses);
   };
+
+
+  // Functions to handle saving, loading, and resetting the game state
 
   const handleSave = (): void => {
     console.log("SAVE (stub)", { rows, currentRow, solution });
@@ -134,9 +168,15 @@ export default function Game() {
     setLetterStatuses({});
   };
 
-  return (
-    <div className="flex flex-col items-center gap-6">
 
+  /*
+    Render the game UI, including the board, keyboard, and toast messages.
+    Constructs TSX elements for the game interface.
+  */
+  return (
+    <div className="flex flex-col items-center gap-4">
+
+      {/* Game Header */}
       <div className="flex flex-row items-center">
         
         <img src="/Wordle.png" width={50} alt="Wordle Logo" className="mr-4" />
@@ -148,16 +188,20 @@ export default function Game() {
 
       </div>
 
+      {/* Game Controls */}
       <div className="flex gap-4">
         <button onClick={handleSave} className="px-4 py-2 bg-emerald-600 rounded">Save</button>
         <button onClick={handleLoad} className="px-4 py-2 bg-amber-500 rounded">Load</button>
         <button onClick={handleReset} className="px-4 py-2 bg-slate-700 rounded">Reset</button>
       </div>
 
+      {/* Toast Message */}
       {toast && <Toast message={toast} onClose={() => setToast(null)} />}
 
+      {/* Game Board */}
       <Board rows={rows} />
 
+      {/* On-Screen Keyboard */}
       <Keyboard onKey={handleKey} letterStatuses={letterStatuses} />
     </div>
   );

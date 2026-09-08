@@ -7,8 +7,10 @@ interface KeyboardRowProps {
   letterStatuses: Record<string, LetterStatus>;
 }
 
+// KeyboardRow component to render a single row of keys on the on-screen keyboard
 export default function KeyboardRow({ letters, onKey, letterStatuses }: KeyboardRowProps) {
   return (
+    // Map each letter to a KeyButton component
     <div className="flex gap-1 justify-center">
       {letters.map(letter => (
         <KeyButton

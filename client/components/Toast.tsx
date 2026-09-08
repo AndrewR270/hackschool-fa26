@@ -7,6 +7,7 @@ interface ToastProps {
   onClose: () => void;
 }
 
+// Toast component to display temporary messages to the user
 export default function Toast({ message, onClose }: ToastProps) {
   useEffect(() => {
     const timer = setTimeout(onClose, 2000);
