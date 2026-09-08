@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Board from "./Board/Board";
 import Keyboard from "./Keyboard/Keyboard";
 import type { RowData, TileData } from "@/types/wordle";
+import { getWordOfTheDay } from "@/lib/wordOfTheDay";
 
 const TEST_WORDS = ["APPLE", "GRAPE", "BRAIN", "LIGHT", "STONE"];
 const ROWS = 6;
@@ -22,8 +23,15 @@ export default function Game() {
   const [gameOver, setGameOver] = useState<boolean>(false);
 
   useEffect(() => {
+    setSolution(getWordOfTheDay());
+  }, []);
+
+
+  /*
+  useEffect(() => {
     setSolution(TEST_WORDS[Math.floor(Math.random() * TEST_WORDS.length)]);
   }, []);
+  */
 
   const handleKey = (key: string): void => {
     if (gameOver) return;
