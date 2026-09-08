@@ -1,6 +1,7 @@
 "use client";
+import Toast from "./Toast";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Board from "./Board/Board";
 import Keyboard from "./Keyboard/Keyboard";
 import type { LetterStatus, RowData } from "@/types/wordle";
@@ -25,7 +26,7 @@ export default function Game() {
 
   const [letterStatuses, setLetterStatuses] = useState<Record<string, LetterStatus>>({});
 
-  const [lastGuess, setLastGuess] = useState<string>("");
+  const [toast, setToast] = useState<string | null>(null);
 
 
   useEffect(() => {
@@ -44,7 +45,7 @@ export default function Game() {
 
     if (key === "ENTER") {
       if (currentCol !== COLS) {
-        setMessage("Not enough letters");
+        setToast("Not enough letters");
         return;
       }
       submitRow();
@@ -82,10 +83,10 @@ export default function Game() {
     const newRows = [...rows];
     newRows[currentRow] = newRow;
     setRows(newRows);
-    setLastGuess(guess);
 
     if (guess === solution) {
       setGameOver(true);
+      setToast("Correct!");
       confetti({
         particleCount: 120,
         spread: 70,
@@ -96,7 +97,7 @@ export default function Game() {
 
     if (currentRow === ROWS - 1) {
       setGameOver(true);
-      setMessage(`Game over. Word was ${solution}`);
+      setToast(`Game over. Word was ${solution}`);
       return;
     }
 
@@ -123,17 +124,20 @@ export default function Game() {
 
   const handleSave = (): void => {
     console.log("SAVE (stub)", { rows, currentRow, solution });
-    setMessage("Save game (stub)");
+    setToast("Save game (stub)");
   };
 
   const handleLoad = (): void => {
     console.log("LOAD (stub)");
-    setMessage("Load game (stub)");
+    setToast("Load game (stub)");
   };
 
   return (
     <div className="flex flex-col items-center gap-6">
-      <h1 className="text-3xl font-bold tracking-widest">WORDLE</h1>
+      <div className="flex flex-row items-center">
+        <img src="/Wordle.png" width={50} alt="Wordle Logo" className="mr-4" />
+        <h1 className="text-4xl font-bold tracking-widest">WORDLE</h1>
+      </div>
 
       <div className="flex gap-4">
         <button onClick={handleSave} className="px-4 py-2 bg-emerald-600 rounded">
@@ -144,7 +148,7 @@ export default function Game() {
         </button>
       </div>
 
-      {message && <div className="text-amber-300">{message}</div>}
+      {toast && <Toast message={toast} onClose={() => setToast(null)} />}
 
       <Board rows={rows} />
 
