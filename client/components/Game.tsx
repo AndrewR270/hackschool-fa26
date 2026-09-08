@@ -3,10 +3,9 @@
 import { useState, useEffect } from "react";
 import Board from "./Board/Board";
 import Keyboard from "./Keyboard/Keyboard";
-import type { RowData, TileData } from "@/types/wordle";
+import type { LetterStatus, RowData } from "@/types/wordle";
 import { getWordOfTheDay } from "@/lib/wordOfTheDay";
 
-const TEST_WORDS = ["APPLE", "GRAPE", "BRAIN", "LIGHT", "STONE"];
 const ROWS = 6;
 const COLS = 5;
 
@@ -21,6 +20,9 @@ export default function Game() {
   const [currentCol, setCurrentCol] = useState<number>(0);
   const [message, setMessage] = useState<string>("");
   const [gameOver, setGameOver] = useState<boolean>(false);
+
+  const [letterStatuses, setLetterStatuses] = useState<Record<string, LetterStatus>>({});
+
 
   useEffect(() => {
     setSolution(getWordOfTheDay());
@@ -91,6 +93,23 @@ export default function Game() {
 
     setCurrentRow(currentRow + 1);
     setCurrentCol(0);
+
+    const updatedStatuses = { ...letterStatuses };
+
+    newRow.forEach(tile => {
+      const current = updatedStatuses[tile.letter];
+
+      // Only upgrade statuses (correct > present > absent)
+      if (tile.status === "correct") {
+        updatedStatuses[tile.letter] = "correct";
+      } else if (tile.status === "present" && current !== "correct") {
+        updatedStatuses[tile.letter] = "present";
+      } else if (!current) {
+        updatedStatuses[tile.letter] = "absent";
+      }
+    });
+
+    setLetterStatuses(updatedStatuses);
   };
 
   const handleSave = (): void => {
@@ -120,7 +139,7 @@ export default function Game() {
 
       <Board rows={rows} />
 
-      <Keyboard onKey={handleKey} />
+      <Keyboard onKey={handleKey} letterStatuses={letterStatuses} />
     </div>
   );
 }
