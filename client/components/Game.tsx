@@ -1,6 +1,8 @@
+"use client";
+
 import { useState, useEffect } from "react";
-import Board from "@components/Board/Board.tsx";
-import Keyboard from "@components/Keyboard/Keyboard.tsx";
+import Board from "./Board/Board";
+import Keyboard from "./Keyboard/Keyboard";
 import type { RowData, TileData } from "@/types/wordle";
 
 const TEST_WORDS = ["APPLE", "GRAPE", "BRAIN", "LIGHT", "STONE"];
