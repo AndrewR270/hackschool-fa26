@@ -56,6 +56,19 @@ export default function Game() {
     setCurrentCol(currentCol + 1);
   };
 
+  useEffect(() => {
+    const handlePhysicalKey = (e: KeyboardEvent) => {
+      if (gameOver) return;
+      const key = e.key.toUpperCase();
+      if (key === "ENTER") { handleKey("ENTER"); return; }
+      if (key === "BACKSPACE") { handleKey("BACKSPACE"); return; }
+      if (/^[A-Z]$/.test(key)) { handleKey(key); }
+    };
+    window.addEventListener("keydown", handlePhysicalKey);
+    return () => { window.removeEventListener("keydown", handlePhysicalKey); };
+  }, [gameOver, handleKey]);
+
+
   const submitRow = (): void => {
     const guess = rows[currentRow].map(t => t.letter).join("");
     const solutionChars = solution.split("");
