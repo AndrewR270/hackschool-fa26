@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema(
         past_games: {
             type: [PastGameSchema],
             default: []
+        },
+        created_at: {
+            type: Date,
+            default: Date.now
         }
     },
     { _id: true }
