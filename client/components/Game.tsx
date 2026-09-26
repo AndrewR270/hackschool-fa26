@@ -88,60 +88,80 @@ export default function Game() {
     };
     window.addEventListener("keydown", handlePhysicalKey);
     return () => { window.removeEventListener("keydown", handlePhysicalKey); };
-  }, [gameOver, handleKey]);
+  }, [gameOver]);
 
 
   // Function to submit the current row and update game state
   const submitRow = (): void => {
-
-    // Check guess against solution and update the status of each tile accordingly
-
-    const guess = rows[currentRow].map(t => t.letter).join("");
+    const guess = rows[currentRow].map(t => t.letter);
     const solutionChars = solution.split("");
 
-    const newRow: RowData = rows[currentRow].map((tile, i) => {
-      if (tile.letter === solutionChars[i]) return { ...tile, status: "correct" };
-      if (solutionChars.includes(tile.letter)) return { ...tile, status: "present" };
-      return { ...tile, status: "absent" };
+    // Count occurrences of each letter in the solution
+    const letterCount: Record<string, number> = {};
+    solutionChars.forEach(ch => {
+      letterCount[ch] = (letterCount[ch] || 0) + 1;
     });
 
-    // Update the rows state with the new row containing the evaluated guess
+    // First pass: mark correct letters
+    const newRow: RowData = guess.map((letter, i) => {
+      if (letter === solutionChars[i]) {
+        letterCount[letter]--; // consume one occurrence
+        return { letter, status: "correct" };
+      }
+      return { letter, status: "empty" }; // temporary
+    });
 
+    // Second pass: mark present/absent
+    newRow.forEach((tile, i) => {
+      if (tile.status === "correct") return;
+
+      const letter = tile.letter;
+
+      if (letterCount[letter] > 0) {
+        tile.status = "present";
+        letterCount[letter]--; // consume one occurrence
+      } else {
+        tile.status = "absent";
+      }
+    });
+
+    // Update rows
     const newRows = [...rows];
     newRows[currentRow] = newRow;
     setRows(newRows);
 
-    // Check if the guess is correct
-    if (guess === solution) {
+    // Win condition
+    if (guess.join("") === solution) {
       setGameOver(true);
       setToast("Correct!");
       confetti({ particleCount: 120, spread: 70, origin: { y: 0.3 } });
       return;
     }
 
-    // Check if last row is reached
+    // Lose condition
     if (currentRow === ROWS - 1) {
       setGameOver(true);
       setToast(`Game over. Word was ${solution}`);
       return;
     }
 
-    // Move to the next row and reset the current column
-
+    // Advance row
     setCurrentRow(currentRow + 1);
     setCurrentCol(0);
 
+    // Update keyboard letter statuses
     const updatedStatuses = { ...letterStatuses };
-
     newRow.forEach(tile => {
       const current = updatedStatuses[tile.letter];
-      if (tile.status === "correct") { updatedStatuses[tile.letter] = "correct"; } 
-      else if (tile.status === "present" && current !== "correct") { updatedStatuses[tile.letter] = "present"; } 
-      else if (!current) { updatedStatuses[tile.letter] = "absent"; }
+      if (tile.status === "correct") updatedStatuses[tile.letter] = "correct";
+      else if (tile.status === "present" && current !== "correct")
+        updatedStatuses[tile.letter] = "present";
+      else if (!current) updatedStatuses[tile.letter] = "absent";
     });
 
     setLetterStatuses(updatedStatuses);
   };
+
 
 
   // Functions to handle saving, loading, and resetting the game state

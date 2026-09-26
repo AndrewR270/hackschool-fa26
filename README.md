@@ -8,11 +8,46 @@ Fork the repo, and clone it into your local environment.
 
 Create in project root: `npx create-next-app@latest client`
 
+Dependencies: `cd client`
+
 Dependencies: `npm install canvas-confetti`
 
 Run inside client directory: `npm run dev`
 
 The runs the project on localhost:3000.
+
+## When Cloning Finished Builds
+
+Run `npm install`!
+
+## Git Commands
+
+Clone a repo to local: `git clone [URL]`
+
+Check branch: `git branch -v`
+Make new branch: `git checkout -b [name]`
+Switch branch: `git checkout [name]`
+Merge branch: `git merge [name]`
+
+Check remote: `git remote -v`
+Update from remote: `git pull origin [branch]`
+
+Add changes:
+`git add .`
+`git commit -m “[tag]: [msg]”`
+`git push origin HEAD`
+
+Revert to last commit:
+`git fetch origin`
+`git reset --hard origin/[branch]`
+
+Commit tags:
+- feat: Added some new functionality to the code
+- fix: Solved a bug
+- docs: Updated comments or the README
+- refactor: Changed structure without altering behavior
+- chore: Minor cleanliness, like adding .gitignore
+
 
 ## Client Architecture
 
