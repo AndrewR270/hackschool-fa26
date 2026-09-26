@@ -2,18 +2,11 @@
 
 A Wordle clone constructed for ACM Hack School 2026.
 
-## Contribution Instructions
+##  Setup
 
-1. Fork the repo, and clone it into your local environment.
-2. `git remote add upstream https://github.com/acmucsd/hackschool-fa26.git`
-3. Push feature branches to your fork and PR them into the main repo.
-
-## Frontend (Client) Setup
+Fork the repo, and clone it into your local environment.
 
 Create in project root: `npx create-next-app@latest client`
-
-Run inside client directory:
-`npm run dev`
 
 Dependencies: `npm install canvas-confetti`
 
@@ -21,14 +14,7 @@ Run inside client directory: `npm run dev`
 
 The runs the project on localhost:3000.
 
-## Backend (Server) Setup
-
-Run inside server directory: 
-`npm start`
-
-WIP!
-
-## Frontend Architecture
+## Client Architecture
 
     client/
     
