@@ -54,11 +54,13 @@ export default function LoginPage() {
           {mode === "login" ? "Sign in" : "Create account"}
         </h1>
 
-        <h2 className="text-l font-semibold text-left opacity-70">
+        {mode === "login" && (
+          <h2 className="text-l font-semibold text-left opacity-70">
             Go ahead and use "Nick" for the username and 
             "mock-password-123" for the password 
-            for a test account.
-        </h2>
+            for a test account
+          </h2>
+        )}
 
         {mode === "signup" && (
           <input
