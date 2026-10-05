@@ -21,7 +21,7 @@ export default function OtherProfiles({ excludeUsername }: { excludeUsername?: s
       try {
         const res = await fetch(`${API}/api/users`);
 
-        // Your getUsers controller returns 404 when there are no users
+        // getUsers controller returns 404 when there are no users
         if (res.status === 404) {
           if (!cancelled) setProfiles([]);
           return;

@@ -36,7 +36,7 @@ export default function LoginPage() {
       if (!res.ok) throw new Error(data.error || "Something went wrong");
 
       setSession(data.username); // remember who is signed in
-      router.push("/");          // go to the game page
+      router.push("/"); // go to the game page
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -49,9 +49,16 @@ export default function LoginPage() {
   return (
     <div className="flex flex-1 items-center justify-center bg-slate-900 px-6 text-slate-100">
       <form onSubmit={handleSubmit} className="w-full max-w-sm rounded-lg bg-slate-800 p-6 flex flex-col gap-4">
+        
         <h1 className="text-2xl font-bold">
           {mode === "login" ? "Sign in" : "Create account"}
         </h1>
+
+        <h2 className="text-l font-semibold text-left opacity-70">
+            Go ahead and use "Nick" for the username and 
+            "mock-password-123" for the password 
+            for a test account.
+        </h2>
 
         {mode === "signup" && (
           <input
