@@ -1,6 +1,10 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import type { PastGame } from "@/lib/types";
 
 export default function GameHistory({ games }: { games: PastGame[] }) {
+  // Sort games by date, newest first based on the current sort order
   const sorted = [...games].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
@@ -14,6 +18,7 @@ export default function GameHistory({ games }: { games: PastGame[] }) {
       ) : (
         <ul className="scroll-dark flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto overscroll-contain pr-2 max-h-96 lg:max-h-none">
           {sorted.map((game) => {
+            // Checks if the last word guesses is the correct word
             const won =
               game.guessed_words.at(-1)?.toUpperCase() === game.word.toUpperCase();
 
@@ -22,16 +27,17 @@ export default function GameHistory({ games }: { games: PastGame[] }) {
                 <div className="flex items-center justify-between">
                   <span className="font-bold tracking-widest">{game.word.toUpperCase()}</span>
                   <span className={won ? "text-emerald-400" : "text-red-400"}>
-                    {won ? `Won in ${game.guessed_words.length}/6` : "Lost"}
+                    {won ? `Won in ${game.guessed_words.length} guesses` : "Lost"}
                   </span>
                 </div>
                 <p className="mt-1 text-xs opacity-60">
                   {new Date(game.date).toLocaleDateString()}
                 </p>
+                {/** Maps out the guessed words */}
                 <div className="mt-2 flex flex-wrap gap-2 font-mono text-xs opacity-80">
-                  {game.guessed_words.map((g, i) => (
-                    <span key={i} className="rounded bg-slate-600 px-2 py-1">
-                      {g.toUpperCase()}
+                  {game.guessed_words.map((currWord, id) => (
+                    <span key={id} className="rounded bg-slate-600 px-2 py-1">
+                      {currWord.toUpperCase()}
                     </span>
                   ))}
                 </div>
