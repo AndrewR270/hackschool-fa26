@@ -11,7 +11,7 @@ export default function UserDetails({ user }: { user: UserProfile }) {
       <h2 className="text-2xl font-bold mb-4">Profile Information</h2>
 
       <div className="flex items-center gap-4">
-        <img src="/profile.png" width={64} alt="Profile" className="rounded-full invert" />
+        <img src="/Profile.png" width={64} alt="Profile" className="rounded-full invert" />
         <div>
           <p className="text-xl font-semibold">{user.username}</p>
           <p className="text-sm opacity-60">Wordler since {memberSince}</p>
