@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import type { PastGame } from "@/lib/types";
 
 export default function GameHistory({ games }: { games: PastGame[] }) {

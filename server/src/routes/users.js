@@ -3,7 +3,8 @@ const {
   getUsers,
   getUserByName,
   getRecentUsers,
-  createUser
+  createUser,
+  login
 } = require("../controllers/user.controller");
 
 const router = express.Router();
@@ -11,7 +12,7 @@ const router = express.Router();
 router.get("/", getUsers);
 router.get("/recent", getRecentUsers);
 router.get("/:username", getUserByName);
-
+router.post("/login", login);
 router.post("/", createUser);
 
 module.exports = router;
