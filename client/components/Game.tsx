@@ -4,6 +4,7 @@ import confetti from "canvas-confetti";
 import Toast from "./Toast";
 import Board from "./Board/Board";
 import Keyboard from "./Keyboard/Keyboard";
+import Link from "next/link";
 import type { LetterStatus, RowData } from "@/lib/types";
 import { getWordOfTheDay } from "@/lib/wordOfTheDay";
 import { getTodayFormatted } from "@/lib/date";
@@ -27,7 +28,7 @@ export default function Game() {
       Array.from({ length: COLS }, () => ({ letter: "", status: "empty" }))
     )
   );
-  
+
   // State for the current row and column
   const [currentRow, setCurrentRow] = useState<number>(0);
   const [currentCol, setCurrentCol] = useState<number>(0);
@@ -198,7 +199,6 @@ export default function Game() {
 
       {/* Game Header */}
       <div className="flex flex-row items-center">
-        
         <img src="/Wordle.png" width={50} alt="Wordle Logo" className="mr-4" />
 
         <div className="flex flex-col">
