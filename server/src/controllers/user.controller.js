@@ -15,7 +15,7 @@ const getUserByName = async (req, res) => {
 
 const getRecentUsers = async (req, res) => {
     const users = await User.find().
-        sort({ createdAt: -1 }).
+        sort({ created_at: -1 }).
         limit(10);
     if (users.length === 0)
         return res.status(404).json({ error: "Users not found." });

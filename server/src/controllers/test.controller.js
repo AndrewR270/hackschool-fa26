@@ -24,10 +24,10 @@ function mockRes() {
     // await getUsers({}, mockRes());
 
     //Uncomment these two lines of code below to test your getUserByName function!
-    // console.log("Running getUserByName() with input of nik...");
-    // await getUserByName({ params: { username: "nik" } }, mockRes());
+    // console.log("Running getUserByName() with input of Nick...");
+    // await getUserByName({ params: { username: "Nick" } }, mockRes());
 
-    // If you want to search for any other users, just replace the username "nik" above
+    // If you want to search for any other users, just replace the username "Nick" above
 
     //Uncomment these two lines of code to test your getRecentUsers function!
     // console.log("Running getRecentUsers()...");
