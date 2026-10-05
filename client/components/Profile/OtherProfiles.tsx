@@ -7,8 +7,8 @@ const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
 const PAGE_SIZE = 10;
 
 export default function OtherProfiles({ excludeUsername }: { excludeUsername?: string }) {
-  const [all, setAll] = useState<PublicProfile[]>([]);
-  const [visible, setVisible] = useState(PAGE_SIZE);
+  const [all, setAll] = useState<PublicProfile[]>([]); // all profiles that are fetched
+  const [visible, setVisible] = useState(PAGE_SIZE); // number of profiles that should currently be displayed 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
@@ -26,16 +26,33 @@ export default function OtherProfiles({ excludeUsername }: { excludeUsername?: s
       try {
         const res = await fetch(`${API}/api/users`);
         if (res.status === 404) {
-          if (!cancelled) setAll([]); 
+          if (!cancelled) setAll([]);
           return;
         }
         if (!res.ok) throw new Error(`Request failed (${res.status})`);
 
         const data: PublicProfile[] = await res.json();
+
         if (!cancelled) {
           setAll(data.filter((u) => u.username !== excludeUsername));
           setVisible(PAGE_SIZE);
         }
+
+        // Uncomment lines 42-54 if you want to test your getRecentUsers() function!
+        // const res = await fetch(`${API}/api/users/recent`);
+        // if (res.status === 404) {
+        //   if (!cancelled) setAll([]);
+        //   return;
+        // }
+        // if (!res.ok) throw new Error(`Request failed (${res.status})`);
+
+        // const recentData: PublicProfile[] = await res.json();
+
+        // if (!cancelled) {
+        //   setAll(recentData.filter((u) => u.username !== excludeUsername));
+        //   setVisible(PAGE_SIZE);
+        // }
+
       } catch (e) {
         if (!cancelled) setError(e instanceof Error ? e.message : "Something went wrong");
       } finally {
@@ -46,13 +63,14 @@ export default function OtherProfiles({ excludeUsername }: { excludeUsername?: s
     return () => { cancelled = true; };
   }, [excludeUsername, attempt]);
 
-  const shown = all.slice(0, visible);
-  const hasMore = visible < all.length;
+  const shown = all.slice(0, visible); //grabs all of the profiles that should be visible
+  const hasMore = visible < all.length; // bool that indicates if there are more profiles to load
 
   // Reveal 10 more profiles when user scrolls to bottom 
   useEffect(() => {
     const root = listRef.current;
     const target = sentinelRef.current;
+    //if there aren't more profiles to load then just return
     if (!root || !target || !hasMore) return;
 
     const observer = new IntersectionObserver(
