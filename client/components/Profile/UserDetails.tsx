@@ -7,14 +7,14 @@ export default function UserDetails({ user }: { user: UserProfile }) {
   });
 
   return (
-    <section className="rounded-lg bg-slate-800 p-6">
+    <section className="shrink-0 rounded-lg bg-slate-800 p-6">
       <h2 className="text-2xl font-bold mb-4">Profile Information</h2>
 
       <div className="flex items-center gap-4">
-        <img src="/profile.png" width={64} alt="" className="rounded-full" />
+        <img src="/profile.png" width={64} alt="Profile" className="rounded-full" />
         <div>
           <p className="text-xl font-semibold">{user.username}</p>
-          <p className="text-sm opacity-60">Member since {memberSince}</p>
+          <p className="text-sm opacity-60">Wordler since {memberSince}</p>
         </div>
       </div>
 
