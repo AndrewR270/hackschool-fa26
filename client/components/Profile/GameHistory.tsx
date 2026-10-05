@@ -1,6 +1,7 @@
 import type { PastGame } from "@/lib/types";
 
 export default function GameHistory({ games }: { games: PastGame[] }) {
+  // Sort games by date, newest first based on the current sort order
   const sorted = [...games].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );

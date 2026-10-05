@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { PublicProfile } from "@/lib/types";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
+const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 const PAGE_SIZE = 10;
 
 export default function OtherProfiles({ excludeUsername }: { excludeUsername?: string }) {
