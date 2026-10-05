@@ -22,6 +22,7 @@ export default function Navbar() {
     if (!stored && pathname !== "/login") router.replace("/login");
   }, [pathname, router]);
 
+  // Handle sign-out functionality
   const handleSignOut = () => {
     clearSession();
     router.push("/login");

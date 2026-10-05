@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { PublicProfile } from "@/lib/types";
 
+// Fetch all user endpoints from the API
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 export default function OtherProfiles({ excludeUsername }: { excludeUsername?: string }) {
@@ -66,6 +67,7 @@ export default function OtherProfiles({ excludeUsername }: { excludeUsername?: s
 
       {loading && <p className="text-sm opacity-60">Loading...</p>}
 
+      {/*failed to reload, so gives another chance to retry*/}
       {error && (
         <button onClick={() => setAttempt((a) => a + 1)} className="text-sm underline">
           Failed to load. Retry
