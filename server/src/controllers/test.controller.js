@@ -19,20 +19,21 @@ function mockRes() {
 (async () => {
     await mongoose.connect(process.env.MONGODB_URI, { dbName: "wordle-clone" });
 
-    //Uncomment these two lines of code to test your getUsers function!
+    //Uncomment these two lines of code below to test your getUsers function!
     // console.log("Running getUsers()... ");
     // await getUsers({}, mockRes());
 
-    //Uncomment these two lines of code to test your getUserByName function!
-    // console.log("Running getUserByName() with input of nik...");
-    // await getUserByName({ params: { username: "nik" } }, mockRes());
-    // If you want to search for any other users, just replace the username "nik" above
+    //Uncomment these two lines of code below to test your getUserByName function!
+    // console.log("Running getUserByName() with input of Nick...");
+    // await getUserByName({ params: { username: "Nick" } }, mockRes());
+
+    // If you want to search for any other users, just replace the username "Nick" above
 
     //Uncomment these two lines of code to test your getRecentUsers function!
     // console.log("Running getRecentUsers()...");
     // await getRecentUsers({}, mockRes());
 
-    //Uncomment these seven lines of code to test your createUser function!
+    //Uncomment these seven lines of code below to test your createUser function!
     // console.log("Running createUser()");
     // await createUser({ body: {
     //     email: "testemail@email.com",

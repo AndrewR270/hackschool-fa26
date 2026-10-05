@@ -29,6 +29,11 @@ body {
   animation: flip 0.6s ease forwards;
 }
 
+.scroll-dark {
+  scrollbar-width: thin;
+  scrollbar-color: #475569 transparent;
+}
+
 @keyframes flip {
   0% {
     transform: rotateX(0deg);
